@@ -1,0 +1,43 @@
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3.3.0
+  
+    - name: export game
+      id: export
+      uses: firebelley/godot-export@v5.2.0
+      with:
+        godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.1.2/Godot_v4.1.2-stable_linux.x86_64.zip
+        godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.1.2/Godot_v4.1.2-stable_export_templates.tpz
+        relative_project_path: ./game
+        archive_output: true
+
+    - name: Set up butler
+      uses: jdno/setup-butler@v1
+
+    - name: deploy windows to itch.io
+      run: |
+        butler push ${{ steps.export.outputs.archive_directory }}/game-off-2023-windows.zip dsaltares/game-off-2023:windows
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_CREDENTIALS }}
+
+    - name: deploy linux to itch.io
+      run: |
+        butler push ${{ steps.export.outputs.archive_directory }}/game-off-2023-linux.zip dsaltares/game-off-2023:linux
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_CREDENTIALS }}
+
+    # Fails due to lack of notarization tools
+    # - name: deploy mac to itch.io
+    #   run: |
+    #     butler push ${{ steps.export.outputs.archive_directory }}/game-off-2023-mac.zip dsaltares/game-off-2023:mac
+    #   env:
+    #     BUTLER_API_KEY: ${{ secrets.BUTLER_CREDENTIALS }}

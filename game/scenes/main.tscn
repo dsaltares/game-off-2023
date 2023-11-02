@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgj6vj82luedw"]
+[gd_scene load_steps=10 format=3 uid="uid://dgj6vj82luedw"]
 
+[ext_resource type="Script" path="res://scripts/world_environment.gd" id="1_a5otl"]
 [ext_resource type="PackedScene" uid="uid://ctkvi1nsknyc4" path="res://scenes/player.tscn" id="1_k8ln6"]
 [ext_resource type="Material" uid="uid://dn57gbttdw7qn" path="res://materials/prototype_grey.tres" id="2_i271u"]
 [ext_resource type="Material" uid="uid://bo4g5tl4xe4u2" path="res://materials/prototype_orange.tres" id="3_q0ebc"]
@@ -20,9 +21,11 @@ glow_enabled = true
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_fn5kt"]
 dof_blur_far_enabled = true
-dof_blur_far_distance = 7.0
+dof_blur_far_distance = 4.0
+dof_blur_far_transition = 2.0
 dof_blur_near_enabled = true
-dof_blur_near_distance = 3.0
+dof_blur_near_distance = 1.0
+dof_blur_amount = 0.15
 
 [sub_resource type="BoxMesh" id="BoxMesh_81gdu"]
 size = Vector3(50, 1, 50)
@@ -33,15 +36,18 @@ size = Vector3(50, 1, 50)
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." node_paths=PackedStringArray("player")]
 environment = SubResource("Environment_f36q5")
 camera_attributes = SubResource("CameraAttributesPractical_fn5kt")
+script = ExtResource("1_a5otl")
+player = NodePath("../Player")
 
 [node name="Player" parent="." instance=ExtResource("1_k8ln6")]
 
 [node name="Level" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
 use_collision = true
+collision_mask = 7
 
 [node name="Floor" type="CSGMesh3D" parent="Level"]
 mesh = SubResource("BoxMesh_81gdu")

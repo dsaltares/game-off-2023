@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 const MOUSE_SENSITIVITY := 0.005
 const MAX_SPEED := 8.0
@@ -12,14 +13,19 @@ const TIME_TO_FACE := 0.1
 
 @onready var coyote_timer := %CoyoteTimer
 @onready var anim_tree := %AnimationTree
-@onready
-var anim_playback := anim_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
 @onready var spring_arm := %SpringArm3D
 @onready var model := %Rig
 
 var can_jump := false
 var was_on_floor := true
-var attack_animations := ["Attack_Horizontal", "Attack_Diagonal", "Attack_Stab"]
+var attack_types := [-1, -0.5, 0, 1]
+var attack_animations := {
+	"1H_Melee_Attack_Slice_Diagonal": true,
+	"1H_Melee_Attack_Slice_Horizontal": true,
+	"1H_Melee_Attack_Chop": true,
+	"1H_Melee_Attack_Stab": true,
+}
+var attacking := false
 
 
 func _ready() -> void:
@@ -60,10 +66,11 @@ func _physics_process(delta: float) -> void:
 
 	var model_velocity = velocity * model.global_transform.basis
 	anim_tree.set(
-		"parameters/IWR/blend_position", Vector2(model_velocity.x, -model_velocity.z) / MAX_SPEED
+		"parameters/locomotion/IWR/blend_position",
+		Vector2(model_velocity.x, -model_velocity.z) / MAX_SPEED
 	)
-	anim_tree.set("parameters/conditions/is_on_floor", is_on_floor())
-	anim_tree.set("parameters/conditions/is_in_air", !is_on_floor())
+	anim_tree.set("parameters/locomotion/conditions/is_on_floor", is_on_floor())
+	anim_tree.set("parameters/locomotion/conditions/is_in_air", !is_on_floor())
 
 	move_and_slide()
 
@@ -81,9 +88,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		)
 		spring_arm.rotation.x -= event.relative.y * MOUSE_SENSITIVITY
 
-	if event.is_action_pressed("attack"):
-		anim_playback.travel(attack_animations.pick_random())
+	if event.is_action_pressed("attack") and attacking == false:
+		anim_tree.set("parameters/attack_type/blend_position", attack_types.pick_random())
+		anim_tree.set("parameters/attack/request", true)
+		attacking = true
 
 
 func _on_coyote_timer_timeout() -> void:
 	can_jump = is_on_floor()
+
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if attack_animations.has(anim_name):
+		attacking = false

@@ -14,5 +14,7 @@ func _process(_delta: float) -> void:
 	var distance = camera_pos.distance_to(player_pos)
 
 	var attributes = camera_attributes as CameraAttributesPractical
+	attributes.dof_blur_far_enabled = true
+	attributes.dof_blur_near_enabled = true
 	attributes.dof_blur_far_distance = distance + focus_range * 0.5
 	attributes.dof_blur_near_distance = distance - focus_range * 0.5

@@ -17,14 +17,13 @@ sky_material = SubResource("ProceduralSkyMaterial_h03tq")
 background_mode = 2
 sky = SubResource("Sky_s0rcl")
 tonemap_mode = 2
+ssao_enabled = true
 sdfgi_enabled = true
 glow_enabled = true
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_fn5kt"]
-dof_blur_far_enabled = true
 dof_blur_far_distance = 4.0
 dof_blur_far_transition = 2.0
-dof_blur_near_enabled = true
 dof_blur_near_distance = 1.0
 dof_blur_amount = 0.15
 

@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cj2tnfkjaugxc"]
+
+[ext_resource type="Texture2D" uid="uid://kgckba6hgydl" path="res://materials/green.png" id="1_avhri"]
+[ext_resource type="Script" path="res://scripts/moving_platform.gd" id="1_nggwx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2sfog"]
+size = Vector3(3, 0.5, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v6v4"]
+albedo_texture = ExtResource("1_avhri")
+uv1_triplanar = true
+
+[node name="MovingPlatform" type="AnimatableBody3D"]
+collision_mask = 7
+script = ExtResource("1_nggwx")
+movement = Vector3(10, 2.08165e-12, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_2sfog")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(3, 0.5, 3)
+material = SubResource("StandardMaterial3D_4v6v4")

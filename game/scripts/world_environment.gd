@@ -2,7 +2,8 @@ extends WorldEnvironment
 
 @export var player: Player
 
-const focus_range = 3.0
+const focus_range_near := 2.0
+const focus_range_far := 10.0
 
 
 func _process(_delta: float) -> void:
@@ -16,5 +17,5 @@ func _process(_delta: float) -> void:
 	var attributes = camera_attributes as CameraAttributesPractical
 	attributes.dof_blur_far_enabled = true
 	attributes.dof_blur_near_enabled = true
-	attributes.dof_blur_far_distance = distance + focus_range * 0.5
-	attributes.dof_blur_near_distance = distance - focus_range * 0.5
+	attributes.dof_blur_far_distance = distance + focus_range_far
+	attributes.dof_blur_near_distance = distance - focus_range_near

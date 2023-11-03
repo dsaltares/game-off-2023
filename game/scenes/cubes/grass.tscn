@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://7fvxr11x0vk7"]
+
+[ext_resource type="PackedScene" uid="uid://p73ua11ibmhe" path="res://models/Cubes/Grass.gltf" id="1_31ky7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1vd32"]
+size = Vector3(2, 2, 2)
+
+[node name="Grass" instance=ExtResource("1_31ky7")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_Grass_Single" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Grass_Single/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_1vd32")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs6aj8eke22tj"]
+
+[ext_resource type="PackedScene" uid="uid://dg3oev6438tj7" path="res://models/Cubes/Exclamation.gltf" id="1_s2elv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1vd32"]
+size = Vector3(2, 2, 2)
+
+[node name="Exclamation" instance=ExtResource("1_s2elv")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_Exclamation" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Exclamation/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_1vd32")

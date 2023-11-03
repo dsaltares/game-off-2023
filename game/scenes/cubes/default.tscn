@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsqj15yw0a7rb"]
+
+[ext_resource type="PackedScene" uid="uid://c5s16fn40leck" path="res://models/Cubes/Default.gltf" id="1_5fe6n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1vd32"]
+size = Vector3(2, 2, 2)
+
+[node name="Default" instance=ExtResource("1_5fe6n")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_Default" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Default/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_1vd32")

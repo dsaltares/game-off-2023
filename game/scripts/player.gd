@@ -3,7 +3,7 @@ class_name Player
 
 const MOUSE_SENSITIVITY := 0.005
 const MAX_SPEED := 8.0
-const JUMP_HEIGHT := 3.2
+const JUMP_HEIGHT := 4.1
 const JUMP_DISTANCE_TO_PEAK := 3.5
 const JUMP_DISTANCE_AFTER_PEAK := 2.5
 const TIME_TO_MAX_SPEED := 0.25

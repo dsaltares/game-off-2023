@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbcgwuow4tnmp"]
+
+[ext_resource type="PackedScene" uid="uid://cuxy81lcr4re" path="res://models/Cubes/Question.gltf" id="1_exshh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1vd32"]
+size = Vector3(2, 2, 2)
+
+[node name="Question" instance=ExtResource("1_exshh")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_Question" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Question/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_1vd32")

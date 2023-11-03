@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkikn1mymtsr0"]
+
+[ext_resource type="PackedScene" uid="uid://4xp2cfkk8gnx" path="res://models/Cubes/Bricks.gltf" id="1_s2a7r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7v3y5"]
+size = Vector3(2, 2, 2)
+
+[node name="Bricks" instance=ExtResource("1_s2a7r")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_Bricks" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Bricks/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_7v3y5")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8iaq4u4ivuei"]
+
+[ext_resource type="PackedScene" uid="uid://dw7petwwewhlg" path="res://models/Cubes/Crate.gltf" id="1_fci7t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1vd32"]
+size = Vector3(2, 2, 2)
+
+[node name="Crate" instance=ExtResource("1_fci7t")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_Crate" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_Crate/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_1vd32")

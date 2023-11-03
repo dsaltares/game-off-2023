@@ -1,0 +1,28 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgai1je0ym5ai"]
+
+[ext_resource type="PackedScene" uid="uid://dkikn1mymtsr0" path="res://scenes/cubes/bricks.tscn" id="1_g8kqf"]
+[ext_resource type="PackedScene" uid="uid://b8iaq4u4ivuei" path="res://scenes/cubes/crate.tscn" id="2_33w1a"]
+[ext_resource type="PackedScene" uid="uid://bsqj15yw0a7rb" path="res://scenes/cubes/default.tscn" id="3_qbgtk"]
+[ext_resource type="PackedScene" uid="uid://cvvjrfbip7vo" path="res://scenes/cubes/dirt.tscn" id="4_2eoba"]
+[ext_resource type="PackedScene" uid="uid://bs6aj8eke22tj" path="res://scenes/cubes/exclamation.tscn" id="5_mhve3"]
+[ext_resource type="PackedScene" uid="uid://7fvxr11x0vk7" path="res://scenes/cubes/grass.tscn" id="6_v16gd"]
+[ext_resource type="PackedScene" uid="uid://bbcgwuow4tnmp" path="res://scenes/cubes/question.tscn" id="7_7hnv0"]
+[ext_resource type="PackedScene" uid="uid://bb1u1kjasx36o" path="res://scenes/cubes/spikes.tscn" id="8_g7utu"]
+
+[node name="Tiles" type="Node3D"]
+
+[node name="Bricks" parent="." instance=ExtResource("1_g8kqf")]
+
+[node name="Crate" parent="." instance=ExtResource("2_33w1a")]
+
+[node name="Default" parent="." instance=ExtResource("3_qbgtk")]
+
+[node name="Dirt" parent="." instance=ExtResource("4_2eoba")]
+
+[node name="Exclamation" parent="." instance=ExtResource("5_mhve3")]
+
+[node name="Grass" parent="." instance=ExtResource("6_v16gd")]
+
+[node name="Question" parent="." instance=ExtResource("7_7hnv0")]
+
+[node name="Spikes" parent="." instance=ExtResource("8_g7utu")]

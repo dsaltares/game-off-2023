@@ -12,7 +12,6 @@ func _ready() -> void:
 		return
 
 	var duration = movement.length() / speed
-	print(duration)
 	var tween := create_tween()
 	(
 		tween

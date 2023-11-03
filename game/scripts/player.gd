@@ -17,16 +17,17 @@ const TIME_TO_FACE := 0.1
 @onready var anim_tree := %AnimationTree
 @onready var model := %Rig
 
-var can_jump := false
-var was_on_floor := true
-var attack_types := [-1, -0.5, 0, 1]
-var attack_animations := {
+const attack_types: Array[float] = [-1, -0.5, 0, 1]
+const attack_animations := {
 	"1H_Melee_Attack_Slice_Diagonal": true,
 	"1H_Melee_Attack_Slice_Horizontal": true,
 	"1H_Melee_Attack_Chop": true,
 	"1H_Melee_Attack_Stab": true,
 }
+
+var can_jump := false
 var attacking := false
+var target_angle: float = 0.0
 
 
 func _ready() -> void:
@@ -52,6 +53,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and can_jump:
 		velocity.y = 2 * JUMP_HEIGHT * MAX_SPEED / JUMP_DISTANCE_TO_PEAK
 		can_jump = false
+		model.scale = Vector3(0.75, 1.25, 0.75)
 
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_rig.rotation.y)
@@ -63,20 +65,20 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * horizontal_speed
 	velocity.z = direction.z * horizontal_speed
 
-	var horizontal_velocity := Vector2(velocity.x, velocity.z)
+	if Vector2(velocity.z, velocity.x).length() > 0:
+		target_angle = Vector2(-velocity.z, -velocity.x).angle()
 
-	if horizontal_velocity.length_squared() > 0.0:
-		model.rotation.y = lerp_angle(model.rotation.y, camera_rig.rotation.y, delta / TIME_TO_FACE)
+	rotation.y = lerp_angle(rotation.y, target_angle, delta / TIME_TO_FACE)
+	model.scale = lerp(model.scale, Vector3(1, 1, 1), delta / 0.2)
 
 	if Input.is_action_just_pressed("attack") and not attacking:
 		anim_tree.set("parameters/attack_type/blend_position", attack_types.pick_random())
 		anim_tree.set("parameters/attack/request", true)
 		attacking = true
 
-	var model_velocity = velocity * model.global_transform.basis
 	anim_tree.set(
 		"parameters/locomotion/IWR/blend_position",
-		Vector2(model_velocity.x, -model_velocity.z) / MAX_SPEED
+		Vector2(velocity.x, velocity.z).length() / MAX_SPEED
 	)
 	anim_tree.set("parameters/locomotion/conditions/is_on_floor", is_on_floor())
 	anim_tree.set("parameters/locomotion/conditions/is_in_air", !is_on_floor())

@@ -34,7 +34,7 @@ size = Vector3(50, 1, 50)
 [node name="Main" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+transform = Transform3D(-0.499997, -0.750003, 0.433012, -2.98812e-09, 0.499998, 0.866026, -0.866027, 0.43301, -0.249997, 1, 6, 0)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." node_paths=PackedStringArray("player")]
@@ -46,11 +46,13 @@ player = NodePath("../Player")
 [node name="Player" parent="." node_paths=PackedStringArray("camera_rig") instance=ExtResource("1_k8ln6")]
 camera_rig = NodePath("../CameraRig")
 
+[node name="CameraTarget" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
 [node name="CameraRig" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_f35s2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
 spring_length = 4.0
-target = NodePath("../Player")
-target_offset = Vector3(2.08165e-12, 2, 2.08165e-12)
+target = NodePath("../Player/CameraTarget")
 follow_time = 0.15
 
 [node name="Level" type="CSGCombiner3D" parent="."]

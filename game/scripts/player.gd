@@ -89,10 +89,9 @@ func _update_vertical_movement(delta: float) -> void:
 
 
 func _update_horizontal_movement(delta: float) -> void:
-	if is_dead:
-		return
-
-	var input_dir := Input.get_vector("left", "right", "forward", "backward")
+	var input_dir := (
+		Input.get_vector("left", "right", "forward", "backward") if !is_dead else Vector2.ZERO
+	)
 	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_rig.rotation.y)
 	var time_to_halt := TIME_TO_HALT if is_on_floor() else TIME_TO_HALT_AIR
 	var acceleration := MAX_SPEED / TIME_TO_MAX_SPEED if direction else MAX_SPEED / time_to_halt
@@ -136,7 +135,7 @@ func _update_animations() -> void:
 	anim_tree.set("parameters/locomotion/conditions/is_dead", is_dead)
 
 	var horizontal_velocity := Vector2(velocity.x, velocity.z)
-	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor()
+	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor() and !is_dead
 
 
 func die() -> void:

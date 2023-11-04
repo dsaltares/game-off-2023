@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dv4r5p6q1mqoo"]
+[gd_scene load_steps=12 format=3 uid="uid://dv4r5p6q1mqoo"]
 
 [ext_resource type="PackedScene" uid="uid://cihcjejuegkv5" path="res://models/Cannon.gltf" id="1_7oda6"]
 [ext_resource type="Script" path="res://scripts/cannon.gd" id="1_sta3d"]
@@ -48,7 +48,7 @@ tracks/2/path = NodePath("Smoke:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.05),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -75,13 +75,17 @@ _data = {
 "shoot": SubResource("Animation_nfqgt")
 }
 
-[sub_resource type="Curve" id="Curve_q66qe"]
-_data = [Vector2(0.0150133, 0.0341365), 0.0, 0.0, 0, 0, Vector2(0.243729, 1), 0.0, 0.0, 0, 0, Vector2(0.982231, 0.0182548), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bv670"]
+transparency = 1
+vertex_color_use_as_albedo = true
 
-[sub_resource type="Gradient" id="Gradient_dq01c"]
-offsets = PackedFloat32Array(0.231788, 0.543046, 1)
-colors = PackedColorArray(0.202627, 0.0867546, 0.00281844, 1, 0.160269, 0.160269, 0.160269, 1, 0.605274, 0.605274, 0.605274, 1)
+[sub_resource type="Curve" id="Curve_q66qe"]
+_data = [Vector2(0.0232801, 0.399416), 0.0, 0.0, 0, 0, Vector2(1, 0.997627), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_c7eg8"]
+offsets = PackedFloat32Array(0.31457, 1)
+colors = PackedColorArray(0.43348, 0.40685, 0.340922, 1, 0.435294, 0.407843, 0.341176, 0)
 
 [node name="Cannon" type="StaticBody3D"]
 collision_layer = 256
@@ -117,29 +121,34 @@ unique_name_in_owner = true
 autostart = true
 
 [node name="Smoke" type="CPUParticles3D" parent="."]
-transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2, -2)
+transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2, -2.6)
+material_override = SubResource("StandardMaterial3D_bv670")
 emitting = false
 amount = 12
-lifetime = 0.4
+lifetime = 0.7
 one_shot = true
 explosiveness = 1.0
 local_coords = true
 mesh = ExtResource("3_5owc8")
+emission_shape = 1
+emission_sphere_radius = 0.01
 direction = Vector3(2.08165e-12, 2.08165e-12, 1)
 spread = 180.0
 flatness = 1.0
-gravity = Vector3(2.08165e-12, -12, 2.08165e-12)
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 initial_velocity_min = 3.5
 initial_velocity_max = 5.0
-angular_velocity_max = 5.0
+angular_velocity_min = 20.0
+angular_velocity_max = 20.0
 radial_accel_min = 3.0
-radial_accel_max = 4.0
-damping_min = 2.525
-damping_max = 9.596
-scale_amount_min = 1.25
-scale_amount_max = 5.0
+radial_accel_max = 8.0
+damping_min = 15.0
+damping_max = 20.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 3.5
 scale_amount_curve = SubResource("Curve_q66qe")
-color_initial_ramp = SubResource("Gradient_dq01c")
+color_ramp = SubResource("Gradient_c7eg8")
 hue_variation_max = 1.0
 
 [connection signal="timeout" from="FireTimer" to="AnimationPlayer" method="play" binds= ["shoot"]]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://ctkvi1nsknyc4"]
+[gd_scene load_steps=30 format=3 uid="uid://ctkvi1nsknyc4"]
 
 [ext_resource type="PackedScene" uid="uid://bgj3ylmjw4t23" path="res://models/Knight.glb" id="1_xbdhg"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_3bofq"]
+[ext_resource type="ArrayMesh" uid="uid://daehcf88m0tce" path="res://models/dust.res" id="4_2403a"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eykix"]
 
@@ -103,6 +104,22 @@ nodes/locomotion/position = Vector2(-980, -120)
 nodes/output/position = Vector2(-400, 90)
 node_connections = [&"output", 0, &"attack", &"TimeScale", 0, &"attack_type", &"attack", 0, &"locomotion", &"attack", 1, &"TimeScale"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e612u"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cxbug"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Curve" id="Curve_w1rdl"]
+_data = [Vector2(0.00123528, 0.0235487), 0.0, 0.0, 0, 0, Vector2(0.139016, 1), -0.532593, -0.532593, 0, 0, Vector2(1, 0), 0.200875, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_1b36k"]
+offsets = PackedFloat32Array(0.317881, 1)
+colors = PackedColorArray(0.997667, 0.637514, 0.422876, 1, 1, 1, 1, 1)
+
 [node name="Player" instance=ExtResource("1_xbdhg")]
 transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-16, -3.48787e-16, 3.48787e-16, 1, 0, 0, 0)
 collision_layer = 2
@@ -114,24 +131,24 @@ transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-
 
 [node name="Skeleton3D" parent="Rig" index="0"]
 transform = Transform3D(-1, 3.48787e-16, -1.50996e-07, 3.48787e-16, 1, -3.48787e-16, 1.50996e-07, -3.48787e-16, -1, 0, 0, 0)
-bones/1/position = Vector3(0, 0.370022, 0)
+bones/1/position = Vector3(0, 0.386601, 0)
 bones/1/rotation = Quaternion(-1.11123e-10, 0.0431578, 2.57241e-09, 0.999068)
-bones/4/rotation = Quaternion(-0.551938, -0.0565232, -0.63753, 0.534533)
-bones/5/rotation = Quaternion(3.70333e-08, -6.47711e-08, -0.516194, 0.856472)
-bones/7/rotation = Quaternion(-0.3215, -0.338143, 0.150055, 0.871654)
-bones/8/rotation = Quaternion(0.000918565, 0.000918556, -0.703727, 0.71047)
-bones/14/rotation = Quaternion(-0.610485, 0.0770331, 0.613123, 0.495434)
-bones/15/rotation = Quaternion(2.07498e-08, 4.69754e-08, 0.538535, 0.842604)
-bones/17/rotation = Quaternion(-0.320602, 0.314535, -0.232403, 0.862711)
-bones/18/rotation = Quaternion(0.00289704, 0.00341229, 0.704091, 0.710096)
+bones/4/rotation = Quaternion(-0.555772, -0.0630153, -0.653977, 0.509372)
+bones/5/rotation = Quaternion(1.81637e-08, -6.35914e-08, -0.478159, 0.878274)
+bones/7/rotation = Quaternion(-0.31795, -0.326067, 0.136801, 0.879701)
+bones/8/rotation = Quaternion(0.00134111, 0.00134108, -0.702166, 0.712011)
+bones/14/rotation = Quaternion(-0.614877, 0.082933, 0.62692, 0.471189)
+bones/15/rotation = Quaternion(1.24591e-08, 4.82606e-08, 0.502141, 0.864786)
+bones/17/rotation = Quaternion(-0.316305, 0.300344, -0.218407, 0.872951)
+bones/18/rotation = Quaternion(0.00272571, 0.00321048, 0.70427, 0.70992)
 bones/21/rotation = Quaternion(-5.80608e-11, -0.0313417, -1.88012e-09, 0.999509)
-bones/24/rotation = Quaternion(0.989746, 0.0836694, 0.0786203, 0.0849766)
-bones/25/rotation = Quaternion(0.389512, 5.79403e-08, -2.6517e-07, 0.921021)
-bones/26/rotation = Quaternion(-0.618612, -0.201166, 0.075732, 0.755722)
+bones/24/rotation = Quaternion(0.993061, 0.0832163, 0.0752483, 0.0352533)
+bones/25/rotation = Quaternion(0.258901, 6.47511e-08, -1.8051e-07, 0.965904)
+bones/26/rotation = Quaternion(-0.550457, -0.207441, 0.0534357, 0.806914)
 bones/27/rotation = Quaternion(-3.04791e-08, 0.920355, -0.391084, 6.94849e-08)
-bones/28/rotation = Quaternion(0.991636, -0.0332441, 0.029854, 0.121089)
-bones/29/rotation = Quaternion(0.434198, -5.87995e-08, 3.02085e-07, 0.900817)
-bones/30/rotation = Quaternion(-0.644821, 0.112566, -0.0228882, 0.755653)
+bones/28/rotation = Quaternion(0.996019, -0.0304862, 0.031041, 0.0778034)
+bones/29/rotation = Quaternion(0.322269, -6.27827e-08, 2.24398e-07, 0.946648)
+bones/30/rotation = Quaternion(-0.584715, 0.11414, -0.0126944, 0.803069)
 bones/31/rotation = Quaternion(3.04791e-08, 0.920355, -0.391084, -6.94849e-08)
 bones/32/rotation = Quaternion(0.707107, -2.29302e-07, -4.60552e-08, 0.707107)
 bones/33/position = Vector3(0.202182, 0.0259903, 0.205181)
@@ -143,21 +160,21 @@ bones/39/rotation = Quaternion(0.707107, -3.82385e-08, 1.45009e-07, 0.707107)
 bones/40/rotation = Quaternion(-0.707107, -7.05285e-08, -7.05285e-08, 0.707107)
 bones/41/rotation = Quaternion(-5.83589e-09, 6.43837e-10, 0.994809, 0.101756)
 bones/42/rotation = Quaternion(-1.04035e-07, 0.391084, 0.920355, -2.95261e-08)
-bones/47/position = Vector3(0.520841, 0.77552, -0.0576374)
+bones/47/position = Vector3(0.520841, 0.776265, -0.0576374)
 bones/47/rotation = Quaternion(0.794627, -1.32247e-07, 0.607098, -5.02923e-08)
-bones/49/position = Vector3(-0.510844, 0.77552, 0.0597369)
+bones/49/position = Vector3(-0.510844, 0.776265, 0.0597369)
 bones/49/rotation = Quaternion(-0.758253, -1.89432e-07, 0.651961, -1.86264e-08)
 
 [node name="Round_Shield" parent="Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.000165874, 0.262422, 0.964952, 0.999952, -0.00930348, 0.00270247, 0.00968701, 0.964908, -0.262409, 0.662259, 0.624261, -0.0417753)
+transform = Transform3D(4.81185e-06, 0.262874, 0.964829, 0.999895, -0.0139255, 0.00378945, 0.0144321, 0.964729, -0.262847, 0.662431, 0.624349, -0.044296)
 bone_idx = 12
 
 [node name="1H_Sword" parent="Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.00203082, -0.158701, 0.987324, 0.999963, -0.00849619, 0.000691022, 0.00827919, 0.987289, 0.158713, -0.495663, 0.628281, 0.140731)
+transform = Transform3D(-0.00190943, -0.158182, 0.987407, 0.999967, -0.00799359, 0.00065284, 0.00779001, 0.987377, 0.158192, -0.496329, 0.62785, 0.138291)
 bone_idx = 19
 
 [node name="Knight_Cape" parent="Rig/Skeleton3D" index="2"]
-transform = Transform3D(0.996275, -5.14962e-09, 0.0862353, 5.13043e-09, 1, 4.44077e-10, -0.0862353, 1.8939e-15, 0.996275, -1.63023e-08, 1.18025, -1.40136e-07)
+transform = Transform3D(0.996275, -5.14962e-09, 0.0862353, 5.13043e-09, 1, 4.44077e-10, -0.0862353, 1.8939e-15, 0.996275, -1.63023e-08, 1.19683, -1.40136e-07)
 bone_idx = 23
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
@@ -182,6 +199,51 @@ parameters/locomotion/IWR/blend_position = 2.08165e-12
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
+
+[node name="RunningTrail" type="CPUParticles3D" parent="." index="5"]
+unique_name_in_owner = true
+transform = Transform3D(1, -1.21652e-31, 0, -1.21652e-31, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_e612u")
+material_overlay = SubResource("StandardMaterial3D_cxbug")
+cast_shadow = 0
+amount = 16
+mesh = ExtResource("4_2403a")
+emission_shape = 1
+emission_sphere_radius = 0.2
+particle_flag_align_y = true
+direction = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+gravity = Vector3(2.08165e-12, 0.1, 2.08165e-12)
+scale_amount_min = 1.25
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_w1rdl")
+color_ramp = SubResource("Gradient_1b36k")
+
+[node name="LandingEffect" type="CPUParticles3D" parent="." index="6"]
+unique_name_in_owner = true
+transform = Transform3D(1, -1.21652e-31, 0, -1.21652e-31, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_e612u")
+material_overlay = SubResource("StandardMaterial3D_cxbug")
+cast_shadow = 0
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 1.0
+mesh = ExtResource("4_2403a")
+emission_shape = 1
+emission_sphere_radius = 0.2
+particle_flag_align_y = true
+direction = Vector3(1, 2.08165e-12, 1)
+spread = 180.0
+flatness = 1.0
+gravity = Vector3(2.08165e-12, 0.1, 2.08165e-12)
+initial_velocity_min = 4.0
+initial_velocity_max = 4.0
+linear_accel_min = -3.0
+linear_accel_max = -2.0
+scale_amount_min = 1.25
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_w1rdl")
+color_ramp = SubResource("Gradient_1b36k")
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]

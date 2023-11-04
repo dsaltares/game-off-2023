@@ -10,12 +10,15 @@ const TIME_TO_MAX_SPEED := 0.25
 const TIME_TO_HALT := 0.15
 const TIME_TO_HALT_AIR := 1.0
 const TIME_TO_FACE := 0.1
+const LAND_EFFECT_HEIGHT_THRESHOLD := 4.0
 
 @export var camera_rig: CameraRig
 
 @onready var coyote_timer := %CoyoteTimer
 @onready var anim_tree := %AnimationTree
 @onready var model := %Rig
+@onready var running_trail := %RunningTrail
+@onready var landing_effect := %LandingEffect
 
 const attack_types: Array[float] = [-1, -0.5, 0, 1]
 const attack_animations := {
@@ -27,6 +30,8 @@ const attack_animations := {
 
 var can_jump := false
 var attacking := false
+var was_on_floor := false
+var max_jump_height := 0.0
 var target_angle: float = 0.0
 
 
@@ -39,8 +44,19 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if is_on_floor():
+		if not was_on_floor:
+			print("landed!")
+			print("max jump height: ", max_jump_height)
+			print("fall height: ", max_jump_height - global_position.y)
+		if not was_on_floor and max_jump_height - global_position.y > LAND_EFFECT_HEIGHT_THRESHOLD:
+			landing_effect.restart()
+			landing_effect.emitting = true
+
 		can_jump = true
+		max_jump_height = 0.0
+
 	else:
+		max_jump_height = max(max_jump_height, global_position.y)
 		var section_distance = (
 			JUMP_DISTANCE_TO_PEAK if velocity.y > 0.0 else JUMP_DISTANCE_AFTER_PEAK
 		)
@@ -65,7 +81,9 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * horizontal_speed
 	velocity.z = direction.z * horizontal_speed
 
-	if Vector2(velocity.z, velocity.x).length() > 0:
+	var horizontal_velocity := Vector2(velocity.x, velocity.z)
+
+	if horizontal_velocity.length_squared() > 0:
 		target_angle = Vector2(-velocity.z, -velocity.x).angle()
 
 	rotation.y = lerp_angle(rotation.y, target_angle, delta / TIME_TO_FACE)
@@ -83,6 +101,10 @@ func _physics_process(delta: float) -> void:
 	anim_tree.set("parameters/locomotion/conditions/is_on_floor", is_on_floor())
 	anim_tree.set("parameters/locomotion/conditions/is_in_air", !is_on_floor())
 
+	# running_trail.emitting = false
+	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor()
+
+	was_on_floor = is_on_floor()
 	move_and_slide()
 
 

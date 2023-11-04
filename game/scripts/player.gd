@@ -6,6 +6,9 @@ const MAX_SPEED := 8.0
 const JUMP_HEIGHT := 4.1
 const JUMP_DISTANCE_TO_PEAK := 3.5
 const JUMP_DISTANCE_AFTER_PEAK := 2.5
+const HIGH_JUMP_HEIGHT := 9.0
+const HIGH_JUMP_DISTANCE_TO_PEAK := 7.0
+const HIGH_JUMP_DISTANCE_AFTER_PEAK := 5.0
 const TIME_TO_MAX_SPEED := 0.25
 const TIME_TO_HALT := 0.15
 const TIME_TO_HALT_AIR := 1.0
@@ -29,10 +32,17 @@ const attack_animations := {
 	"1H_Melee_Attack_Stab": true,
 }
 
+enum JumpMode {
+	NO_JUMP,
+	JUMP,
+	HIGH_JUMP,
+}
+
 var can_jump := false
 var attacking := false
 var was_on_floor := false
 var max_jump_height := 0.0
+var jump_mode := JumpMode.NO_JUMP
 var target_angle: float = 0.0
 
 
@@ -68,8 +78,8 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 
 
 func _update_vertical_movement(delta: float) -> void:
-	if is_on_floor():
-		if not was_on_floor and max_jump_height - global_position.y > LAND_EFFECT_HEIGHT_THRESHOLD:
+	if is_on_floor() and not was_on_floor:
+		if max_jump_height - global_position.y > LAND_EFFECT_HEIGHT_THRESHOLD:
 			landing_effect.restart()
 			landing_effect.emitting = true
 
@@ -78,10 +88,19 @@ func _update_vertical_movement(delta: float) -> void:
 
 	else:
 		max_jump_height = max(max_jump_height, global_position.y)
-		var section_distance = (
-			JUMP_DISTANCE_TO_PEAK if velocity.y > 0.0 else JUMP_DISTANCE_AFTER_PEAK
-		)
-		var gravity = 2 * JUMP_HEIGHT * pow(MAX_SPEED, 2) / pow(section_distance, 2)
+
+		var jump_height := HIGH_JUMP_HEIGHT if jump_mode == JumpMode.HIGH_JUMP else JUMP_HEIGHT
+		var section_distance := 0.0
+		if jump_mode == JumpMode.HIGH_JUMP:
+			section_distance = (
+				HIGH_JUMP_DISTANCE_TO_PEAK if velocity.y > 0.0 else HIGH_JUMP_DISTANCE_AFTER_PEAK
+			)
+		else:
+			section_distance = (
+				JUMP_DISTANCE_TO_PEAK if velocity.y > 0.0 else JUMP_DISTANCE_AFTER_PEAK
+			)
+
+		var gravity = 2 * jump_height * pow(MAX_SPEED, 2) / pow(section_distance, 2)
 		velocity.y -= gravity * delta
 
 		if coyote_timer.is_stopped():
@@ -120,9 +139,7 @@ func _handle_actions() -> void:
 		attacking = true
 
 	if Input.is_action_just_pressed("jump") and can_jump:
-		velocity.y = 2 * JUMP_HEIGHT * MAX_SPEED / JUMP_DISTANCE_TO_PEAK
-		can_jump = false
-		model.scale = Vector3(0.75, 1.25, 0.75)
+		_start_jump(JumpMode.JUMP)
 
 
 func _update_animations() -> void:
@@ -138,5 +155,20 @@ func _update_animations() -> void:
 	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor() and !is_dead
 
 
+func _start_jump(mode: JumpMode) -> void:
+	jump_mode = mode
+	var jump_height := JUMP_HEIGHT if mode == JumpMode.JUMP else HIGH_JUMP_HEIGHT
+	var section_distance := (
+		JUMP_DISTANCE_TO_PEAK if mode == JumpMode.JUMP else HIGH_JUMP_DISTANCE_TO_PEAK
+	)
+	velocity.y = 2 * jump_height * MAX_SPEED / section_distance
+	can_jump = false
+	model.scale = Vector3(0.75, 1.25, 0.75)
+
+
 func die() -> void:
 	is_dead = true
+
+
+func high_jump() -> void:
+	_start_jump(JumpMode.HIGH_JUMP)

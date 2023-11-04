@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgj6vj82luedw"]
+[gd_scene load_steps=12 format=3 uid="uid://dgj6vj82luedw"]
 
 [ext_resource type="Script" path="res://scripts/world_environment.gd" id="1_a5otl"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_f3jp2"]
@@ -6,6 +6,7 @@
 [ext_resource type="MeshLibrary" uid="uid://h6vx5pq7jaji" path="res://resources/tiles.tres" id="5_cse6c"]
 [ext_resource type="PackedScene" uid="uid://cb2pl38cqahd" path="res://scenes/camera_rig.tscn" id="5_f35s2"]
 [ext_resource type="PackedScene" uid="uid://cj2tnfkjaugxc" path="res://scenes/moving_platform.tscn" id="6_07l0c"]
+[ext_resource type="PackedScene" uid="uid://dv4r5p6q1mqoo" path="res://scenes/cannon.tscn" id="7_1geew"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h03tq"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -77,3 +78,9 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 60.0
 offset_bottom = 43.0
+
+[node name="Cannon" parent="." instance=ExtResource("7_1geew")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0)
+
+[node name="Cannon2" parent="." instance=ExtResource("7_1geew")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4, 14)

@@ -19,6 +19,7 @@ const LAND_EFFECT_HEIGHT_THRESHOLD := 4.0
 @onready var model := %Rig
 @onready var running_trail := %RunningTrail
 @onready var landing_effect := %LandingEffect
+@onready var is_dead := false
 
 const attack_types: Array[float] = [-1, -0.5, 0, 1]
 const attack_animations := {
@@ -43,11 +44,31 @@ func _physics_process(delta: float) -> void:
 	if camera_rig == null:
 		return
 
+	_update_vertical_movement(delta)
+	_update_horizontal_movement(delta)
+	_handle_actions()
+	_update_animations()
+
+	was_on_floor = is_on_floor()
+	move_and_slide()
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_action_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_coyote_timer_timeout() -> void:
+	can_jump = is_on_floor()
+
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if attack_animations.has(anim_name):
+		attacking = false
+
+
+func _update_vertical_movement(delta: float) -> void:
 	if is_on_floor():
-		if not was_on_floor:
-			print("landed!")
-			print("max jump height: ", max_jump_height)
-			print("fall height: ", max_jump_height - global_position.y)
 		if not was_on_floor and max_jump_height - global_position.y > LAND_EFFECT_HEIGHT_THRESHOLD:
 			landing_effect.restart()
 			landing_effect.emitting = true
@@ -66,10 +87,10 @@ func _physics_process(delta: float) -> void:
 		if coyote_timer.is_stopped():
 			coyote_timer.start()
 
-	if Input.is_action_just_pressed("jump") and can_jump:
-		velocity.y = 2 * JUMP_HEIGHT * MAX_SPEED / JUMP_DISTANCE_TO_PEAK
-		can_jump = false
-		model.scale = Vector3(0.75, 1.25, 0.75)
+
+func _update_horizontal_movement(delta: float) -> void:
+	if is_dead:
+		return
 
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_rig.rotation.y)
@@ -89,34 +110,34 @@ func _physics_process(delta: float) -> void:
 	rotation.y = lerp_angle(rotation.y, target_angle, delta / TIME_TO_FACE)
 	model.scale = lerp(model.scale, Vector3(1, 1, 1), delta / 0.2)
 
+
+func _handle_actions() -> void:
+	if is_dead:
+		return
+
 	if Input.is_action_just_pressed("attack") and not attacking:
 		anim_tree.set("parameters/attack_type/blend_position", attack_types.pick_random())
 		anim_tree.set("parameters/attack/request", true)
 		attacking = true
 
+	if Input.is_action_just_pressed("jump") and can_jump:
+		velocity.y = 2 * JUMP_HEIGHT * MAX_SPEED / JUMP_DISTANCE_TO_PEAK
+		can_jump = false
+		model.scale = Vector3(0.75, 1.25, 0.75)
+
+
+func _update_animations() -> void:
 	anim_tree.set(
 		"parameters/locomotion/IWR/blend_position",
 		Vector2(velocity.x, velocity.z).length() / MAX_SPEED
 	)
 	anim_tree.set("parameters/locomotion/conditions/is_on_floor", is_on_floor())
 	anim_tree.set("parameters/locomotion/conditions/is_in_air", !is_on_floor())
+	anim_tree.set("parameters/locomotion/conditions/is_dead", is_dead)
 
-	# running_trail.emitting = false
+	var horizontal_velocity := Vector2(velocity.x, velocity.z)
 	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor()
 
-	was_on_floor = is_on_floor()
-	move_and_slide()
 
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.is_action_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-
-func _on_coyote_timer_timeout() -> void:
-	can_jump = is_on_floor()
-
-
-func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
-	if attack_animations.has(anim_name):
-		attacking = false
+func die() -> void:
+	is_dead = true

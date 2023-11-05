@@ -10,6 +10,9 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if !hazard_area.monitoring:
+		return
+		
 	for body in hazard_area.get_overlapping_bodies():
 		if body.has_method("damage"):
 			body.damage()

@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch3qg3b580i0l"]
+
+[ext_resource type="PackedScene" uid="uid://ctisf77yel4f0" path="res://models/Bridge_Modular.gltf" id="1_nu4v2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhrqj"]
+size = Vector3(5.5, 0.2, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7v5lj"]
+size = Vector3(0.7, 2, 2.8)
+
+[node name="BridgeStart" type="StaticBody3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_nu4v2")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 2.5, 3.48787e-16, 1, -8.71967e-16, -1, 3.48787e-16, -1.09278e-07, 0, 0, 0)
+
+[node name="CollisionShapePlank" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.75, -1.1)
+shape = SubResource("BoxShape3D_bhrqj")
+
+[node name="CollisionShapePlank2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.973045, -0.230616, 0, 0.230616, 0.973045, 2.08165e-12, 0.659114, -0.384354)
+shape = SubResource("BoxShape3D_bhrqj")
+
+[node name="CollisionShapePlank3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866142, -0.499798, 0, 0.499799, 0.866142, 2.08165e-12, 0.382856, 0.304694)
+shape = SubResource("BoxShape3D_bhrqj")
+
+[node name="CollisionShapePlank4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 2.08165e-12, 0.03, 0.9)
+shape = SubResource("BoxShape3D_bhrqj")
+
+[node name="CollisionShapeRightRail" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0.75, -0.1)
+shape = SubResource("BoxShape3D_7v5lj")
+
+[node name="CollisionShapeLeftRail" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0.75, -0.1)
+shape = SubResource("BoxShape3D_7v5lj")

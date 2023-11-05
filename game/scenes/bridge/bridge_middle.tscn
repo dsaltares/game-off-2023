@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5ndoc738kw1s"]
+
+[ext_resource type="PackedScene" uid="uid://y4hq4njklwk4" path="res://models/Bridge_Modular_Center.gltf" id="1_q0oc6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1w48x"]
+size = Vector3(5.5, 0.3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w2ngv"]
+size = Vector3(0.7, 2, 3)
+
+[node name="BridgeMiddle" type="StaticBody3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_q0oc6")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 2.5, 3.48787e-16, 1, -8.71967e-16, -1, 3.48787e-16, -1.09278e-07, 0, 0, 0)
+
+[node name="CollisionShapePlanks" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("BoxShape3D_1w48x")
+
+[node name="CollisionShapeRailRight" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0.8, 0)
+shape = SubResource("BoxShape3D_w2ngv")
+
+[node name="CollisionShapeRailLeft" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0.8, 0)
+shape = SubResource("BoxShape3D_w2ngv")

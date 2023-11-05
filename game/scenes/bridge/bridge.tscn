@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ober1e52kql7"]
+
+[ext_resource type="Script" path="res://scripts/bridge.gd" id="1_mgdc7"]
+
+[node name="Bridge" type="Node3D"]
+script = ExtResource("1_mgdc7")
+
+[node name="Segments" type="Node3D" parent="."]
+unique_name_in_owner = true

@@ -22,7 +22,7 @@ const LAND_EFFECT_HEIGHT_THRESHOLD := 4.0
 @onready var model := %Rig
 @onready var running_trail := %RunningTrail
 @onready var landing_effect := %LandingEffect
-@onready var is_dead := false
+@onready var immunity_timer := %ImmunityTimer
 
 const attack_types: Array[float] = [-1, -0.5, 0, 1]
 const attack_animations := {
@@ -41,9 +41,11 @@ enum JumpMode {
 var can_jump := false
 var attacking := false
 var was_on_floor := false
+var is_dead := false
 var max_jump_height := 0.0
 var jump_mode := JumpMode.NO_JUMP
-var target_angle: float = 0.0
+var target_angle := 0.0
+var health: int = 3
 
 
 func _ready() -> void:
@@ -164,6 +166,19 @@ func _start_jump(mode: JumpMode) -> void:
 	velocity.y = 2 * jump_height * MAX_SPEED / section_distance
 	can_jump = false
 	model.scale = Vector3(0.75, 1.25, 0.75)
+
+
+func damage() -> void:
+	if !immunity_timer.is_stopped() or is_dead:
+		return
+
+	health -= 1
+
+	if health == 0:
+		die()
+	else:
+		anim_tree.set("parameters/damage/request", true)
+		immunity_timer.start()
 
 
 func die() -> void:

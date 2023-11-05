@@ -23,7 +23,6 @@ func _update_segments() -> void:
 		child.queue_free()
 
 	var num_segments := ceili(length / segment_length)
-	print("num_segments: ", num_segments)
 	var bridge_start = BridgeStartScene.instantiate()
 	segments.add_child(bridge_start)
 	

@@ -5,7 +5,6 @@ class_name Bouncer
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	if body is Player:
-		var player := body as Player
-		player.high_jump()
+	if body.has_method('high_jump'):
+		body.high_jump()
 		animation_player.play("bounce")

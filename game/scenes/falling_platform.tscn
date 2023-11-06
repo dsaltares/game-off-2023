@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://q71rx7drm0h5"]
+
+[ext_resource type="Script" path="res://scripts/falling_platform.gd" id="1_a02xb"]
+[ext_resource type="PackedScene" uid="uid://p73ua11ibmhe" path="res://models/Cubes/Grass.gltf" id="2_p4boy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2sfog"]
+size = Vector3(3, 0.7, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgoe6"]
+size = Vector3(3, 1, 3)
+
+[node name="FallingPlatform" type="AnimatableBody3D"]
+collision_mask = 7
+script = ExtResource("1_a02xb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.4, 2.08165e-12)
+shape = SubResource("BoxShape3D_2sfog")
+
+[node name="Model" parent="." instance=ExtResource("2_p4boy")]
+unique_name_in_owner = true
+transform = Transform3D(1.5, 0, 0, 0, 0.5, 0, 0, 0, 1.5, 2.08165e-12, -0.5, 2.08165e-12)
+
+[node name="Area3D" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("BoxShape3D_vgoe6")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

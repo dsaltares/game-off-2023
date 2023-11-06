@@ -8,7 +8,7 @@ class_name Water
 @onready var collision_shape := %CollisionShape3D
 @onready var mesh_instance := %Mesh
 
-var shader := preload("res://materials/water.tres")
+var material := preload("res://materials/water.tres")
 
 func _ready() -> void:
 	_update_size()
@@ -26,10 +26,9 @@ func _update_size() -> void:
 		
 	var plane := PlaneMesh.new()
 	plane.size = water_size
-	plane.subdivide_width = water_size.x
-	plane.subdivide_depth = water_size.y
-	plane.material = ShaderMaterial.new()
-	plane.material.shader = shader
+	plane.subdivide_width = floor(water_size.x)
+	plane.subdivide_depth = floor(water_size.y)
+	plane.material = material
 	mesh_instance.mesh = plane
 	
 	var box_shape := BoxShape3D.new()
@@ -37,6 +36,9 @@ func _update_size() -> void:
 	box_shape.size.y = 1.0
 	box_shape.size.z = water_size.y
 	collision_shape.shape = box_shape
+	
+	var tiling := (water_size.x + water_size.y) / 2.0 / 10.0
+	mesh_instance.set_instance_shader_parameter("tiling", tiling)
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:

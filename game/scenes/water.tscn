@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn31onovdjhxd"]
+
+[ext_resource type="Shader" uid="uid://d1ftup7s4lg4f" path="res://materials/water.tres" id="1_k8vur"]
+[ext_resource type="Script" path="res://scripts/water.gd" id="2_33v6h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2xmuj"]
+render_priority = 0
+shader = ExtResource("1_k8vur")
+shader_parameter/ColorParameter = Color(0.2, 0.486275, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_y8g55"]
+material = SubResource("ShaderMaterial_2xmuj")
+size = Vector2(10, 10)
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mwa8j"]
+size = Vector3(10, 1, 10)
+
+[node name="Water" type="Node3D"]
+script = ExtResource("2_33v6h")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("PlaneMesh_y8g55")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 6
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+shape = SubResource("BoxShape3D_mwa8j")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

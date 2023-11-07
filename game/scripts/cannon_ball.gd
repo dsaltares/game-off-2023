@@ -11,9 +11,8 @@ func _process(delta: float) -> void:
 
 
 func _on_hit_area_body_entered(body: Node3D) -> void:
-	if body is Player:
-		var player := body as Player
-		player.die()
+	if body.has_method('die'):
+		body.die()
 
 	var explosion := ExplosionScene.instantiate()
 	get_tree().root.add_child(explosion)

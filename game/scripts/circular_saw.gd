@@ -44,7 +44,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		var movement := -global_transform.basis.z * distance
-		DebugDraw3D.draw_line(global_position, global_position + movement, Color.HOT_PINK)
+#		DebugDraw3D.draw_line(global_position, global_position + movement, Color.HOT_PINK)
 
 
 func _on_body_entered(body: Node3D) -> void:

@@ -61,6 +61,7 @@ func _physics_process(delta: float) -> void:
 	_update_horizontal_movement(delta)
 	_handle_actions()
 	_update_animations()
+	_update_damage_area()
 
 	was_on_floor = is_on_floor()
 	move_and_slide()
@@ -80,6 +81,13 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		attacking = false
 		damage_area.monitoring = false
 
+func _update_damage_area() -> void:
+	if !damage_area.monitoring:
+		return
+
+	for body in damage_area.get_overlapping_bodies():
+		if body.has_method("kill"):
+			body.kill()
 
 func _update_vertical_movement(delta: float) -> void:
 	if is_on_floor() and not was_on_floor:
@@ -190,8 +198,3 @@ func die() -> void:
 
 func high_jump() -> void:
 	_start_jump(JumpMode.HIGH_JUMP)
-
-
-func _on_damage_area_body_entered(body: Node3D) -> void:
-	if body.has_method('die'):
-		body.die()

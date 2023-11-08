@@ -1,7 +1,7 @@
 [gd_scene load_steps=27 format=3 uid="uid://bvgwtvkndwkb7"]
 
 [ext_resource type="PackedScene" uid="uid://csli8cn8cenqh" path="res://models/Enemy.gltf" id="1_e230d"]
-[ext_resource type="Script" path="res://scripts/green_monster.gd" id="2_q12hl"]
+[ext_resource type="Script" path="res://scripts/ground_monster.gd" id="2_wnejb"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="3_pnuqb"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="4_8pqj2"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="5_4ffir"]
@@ -27,16 +27,16 @@ animation = &"Death"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_r0xeq"]
 animation = &"HitRecieve"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fdat7"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g5wfi"]
 animation = &"Walk"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rsgxa"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4y0au"]
 animation = &"Idle"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_ko1hm"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_fdat7")
+blend_point_0/node = SubResource("AnimationNodeAnimation_g5wfi")
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_rsgxa")
+blend_point_1/node = SubResource("AnimationNodeAnimation_4y0au")
 blend_point_1/pos = 0.0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6wuyg"]
@@ -73,7 +73,7 @@ graph_offset = Vector2(68, 14)
 [node name="GreenMonster" instance=ExtResource("1_e230d")]
 collision_layer = 4
 collision_mask = 7
-script = ExtResource("2_q12hl")
+script = ExtResource("2_wnejb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.8, 2.08165e-12)
@@ -94,13 +94,13 @@ shape = SubResource("BoxShape3D_2ctpi")
 transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="MonsterArmature" index="0"]
-bones/1/position = Vector3(-7.80307e-18, 0.0910862, 0.500829)
-bones/2/position = Vector3(0, 0.488434, 0)
-bones/4/rotation = Quaternion(-1.39901e-19, 3.54751e-10, -0.0142324, 0.999899)
-bones/5/position = Vector3(-0.430698, 0.478899, 0.506212)
-bones/5/rotation = Quaternion(-0.00477077, 0.00101474, 0.00492, 0.999976)
-bones/6/position = Vector3(0.430698, 0.478899, 0.506212)
-bones/6/rotation = Quaternion(-0.00477077, -0.00101474, -0.00492, 0.999976)
+bones/1/position = Vector3(-7.80307e-18, 0.0902424, 0.500829)
+bones/2/position = Vector3(0, 0.484617, 0)
+bones/4/rotation = Quaternion(-5.25933e-20, -1.52667e-09, 0.00249039, 0.999997)
+bones/5/position = Vector3(-0.430698, 0.476606, 0.506212)
+bones/5/rotation = Quaternion(-0.00129606, 0.000275673, 0.0013366, 0.999998)
+bones/6/position = Vector3(0.430698, 0.476606, 0.506212)
+bones/6/rotation = Quaternion(-0.00129606, -0.000275673, -0.0013366, 0.999998)
 
 [node name="AnimationPlayer" parent="." index="3"]
 unique_name_in_owner = true
@@ -113,11 +113,9 @@ active = true
 parameters/conditions/is_dead = false
 parameters/IWR/blend_position = -0.00414938
 
-[node name="AI" type="Node" parent="." index="5" node_paths=PackedStringArray("blackboard")]
-unique_name_in_owner = true
+[node name="AI" type="Node" parent="." index="5"]
 script = ExtResource("3_pnuqb")
 actor_node_path = NodePath("..")
-blackboard = NodePath("")
 
 [node name="Either" type="Node" parent="AI" index="0"]
 script = ExtResource("4_8pqj2")

@@ -33,6 +33,6 @@ func _ready() -> void:
 	tween.play()
 
 
-func _process(_delta: float) -> void:
-	if Engine.is_editor_hint():
-		DebugDraw3D.draw_line(global_position, global_position + movement, Color.DARK_CYAN)
+#func _process(_delta: float) -> void:
+#	if Engine.is_editor_hint():
+#		DebugDraw3D.draw_line(global_position, global_position + movement, Color.DARK_CYAN)

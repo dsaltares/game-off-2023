@@ -9,6 +9,7 @@ class_name CircularSaw
 @onready var animation_player := %AnimationPlayer
 @onready var model := %Model
 
+
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
@@ -36,7 +37,7 @@ func _ready() -> void:
 	)
 	tween.set_loops()
 	tween.play()
-	
+
 	animation_player.play("idle")
 
 

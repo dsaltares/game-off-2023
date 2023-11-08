@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name GreenMonster
 
-@export var patrol : Path3D
+@export var patrol: Path3D
 @export var detect_player_range := 5.0
 @export var attack_player_range := 2.0
 
@@ -80,18 +80,19 @@ func _update_look_at(delta: float) -> void:
 
 func _update_damage_area() -> void:
 	for body in damage_area.get_overlapping_bodies():
-		if body.has_method('damage'):
+		if body.has_method("damage"):
 			body.damage()
+
 
 func attack() -> void:
 	if attacking:
 		return
-		
+
 	anim_state_machine.travel("Bite")
 	attacking = true
 	await get_tree().create_timer(0.2).timeout
 	damage_area.monitoring = true
-	
+
 
 func die() -> void:
 	is_dead = true
@@ -100,6 +101,6 @@ func die() -> void:
 
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
-	if anim_name == 'Bite_Front':
+	if anim_name == "Bite_Front":
 		attacking = false
 		damage_area.monitoring = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dgj6vj82luedw"]
+[gd_scene load_steps=37 format=3 uid="uid://dgj6vj82luedw"]
 
 [ext_resource type="Script" path="res://scripts/world_environment.gd" id="1_a5otl"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_f3jp2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cb2pl38cqahd" path="res://scenes/camera_rig.tscn" id="5_f35s2"]
 [ext_resource type="PackedScene" uid="uid://cj2tnfkjaugxc" path="res://scenes/moving_platform.tscn" id="6_07l0c"]
 [ext_resource type="PackedScene" uid="uid://dv4r5p6q1mqoo" path="res://scenes/cannon.tscn" id="7_1geew"]
+[ext_resource type="PackedScene" uid="uid://bvgwtvkndwkb7" path="res://scenes/green_monster.tscn" id="7_tcvk1"]
 [ext_resource type="PackedScene" uid="uid://cj0pyh2lb4mc" path="res://scenes/bouncer.tscn" id="8_y8ruo"]
 [ext_resource type="PackedScene" uid="uid://dq0ryhwf36fdr" path="res://scenes/spikes.tscn" id="9_o7i4k"]
 [ext_resource type="PackedScene" uid="uid://43c1bwejp7" path="res://scenes/circular_saw.tscn" id="10_6fopu"]
@@ -50,6 +51,13 @@ dof_blur_far_distance = 4.0
 dof_blur_near_distance = 1.0
 dof_blur_near_transition = 0.5
 dof_blur_amount = 0.15
+
+[sub_resource type="Curve3D" id="Curve3D_2b62i"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1, -0.9, 0, 0, 0, 0, 0, 0, 0, 8, -0.9, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2h2m8"]
 albedo_color = Color(0.65098, 0.537255, 0.423529, 1)
@@ -111,13 +119,24 @@ offset_top = 20.0
 offset_right = 60.0
 offset_bottom = 43.0
 
+[node name="Enemies" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 5)
+
+[node name="GreenMonster" parent="Enemies" node_paths=PackedStringArray("patrol") instance=ExtResource("7_tcvk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.9, -27)
+patrol = NodePath("../Path3D")
+
+[node name="Path3D" type="Path3D" parent="Enemies"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.9, -26)
+curve = SubResource("Curve3D_2b62i")
+
 [node name="LevelElements" type="Node3D" parent="."]
 
 [node name="Cannon" parent="LevelElements" instance=ExtResource("7_1geew")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0, 6)
 
 [node name="Cannon2" parent="LevelElements" instance=ExtResource("7_1geew")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 4, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4, -14)
 
 [node name="Bouncer" parent="LevelElements" instance=ExtResource("8_y8ruo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -9)

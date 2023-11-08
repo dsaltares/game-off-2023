@@ -23,6 +23,7 @@ const LAND_EFFECT_HEIGHT_THRESHOLD := 4.0
 @onready var running_trail := %RunningTrail
 @onready var landing_effect := %LandingEffect
 @onready var immunity_timer := %ImmunityTimer
+@onready var damage_area := %DamageArea
 
 const attack_types: Array[float] = [-1, -0.5, 0, 1]
 const attack_animations := {
@@ -77,6 +78,7 @@ func _on_coyote_timer_timeout() -> void:
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if attack_animations.has(anim_name):
 		attacking = false
+		damage_area.monitoring = false
 
 
 func _update_vertical_movement(delta: float) -> void:
@@ -139,6 +141,7 @@ func _handle_actions() -> void:
 		anim_tree.set("parameters/attack_type/blend_position", attack_types.pick_random())
 		anim_tree.set("parameters/attack/request", true)
 		attacking = true
+		damage_area.monitoring = true
 
 	if Input.is_action_just_pressed("jump") and can_jump:
 		_start_jump(JumpMode.JUMP)
@@ -187,3 +190,8 @@ func die() -> void:
 
 func high_jump() -> void:
 	_start_jump(JumpMode.HIGH_JUMP)
+
+
+func _on_damage_area_body_entered(body: Node3D) -> void:
+	if body.has_method('die'):
+		body.die()

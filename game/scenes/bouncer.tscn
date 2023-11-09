@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cj0pyh2lb4mc"]
+[gd_scene load_steps=11 format=3 uid="uid://cj0pyh2lb4mc"]
 
 [ext_resource type="Script" path="res://scripts/bouncer.gd" id="1_2w0f7"]
 [ext_resource type="PackedScene" uid="uid://cftndktkcumdj" path="res://models/Bouncer.gltf" id="1_ojfgn"]
@@ -9,43 +9,27 @@ size = Vector3(2, 1.8, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_pe4om"]
 size = Vector3(2, 0.2, 2)
 
-[sub_resource type="Animation" id="Animation_e2t6g"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 1, 1)]
-}
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_23spr"]
+animation = &"Bouncer_Bounce"
 
-[sub_resource type="Animation" id="Animation_oikx4"]
-resource_name = "bounce"
-length = 0.5
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.3, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(1, 0.3, 1), Vector3(1, 1.4, 1), Vector3(1, 1, 1)]
-}
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lcrgd"]
+animation = &"Bouncer_Idle"
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_m3ht0"]
-_data = {
-"RESET": SubResource("Animation_e2t6g"),
-"bounce": SubResource("Animation_oikx4")
-}
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mb67i"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ovnqj"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_niby2"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gpwhn"]
+states/Bounce/node = SubResource("AnimationNodeAnimation_23spr")
+states/Bounce/position = Vector2(419.5, 203)
+states/Idle/node = SubResource("AnimationNodeAnimation_lcrgd")
+states/Idle/position = Vector2(418, 99.25)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_mb67i"), "Idle", "Bounce", SubResource("AnimationNodeStateMachineTransition_ovnqj"), "Bounce", "Idle", SubResource("AnimationNodeStateMachineTransition_niby2")]
 
 [node name="Bouncer" type="StaticBody3D"]
 collision_mask = 15
@@ -64,10 +48,12 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 shape = SubResource("BoxShape3D_pe4om")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="."]
 unique_name_in_owner = true
-libraries = {
-"": SubResource("AnimationLibrary_m3ht0")
-}
+tree_root = SubResource("AnimationNodeStateMachine_gpwhn")
+anim_player = NodePath("../Model/AnimationPlayer")
+active = true
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+
+[editable path="Model"]

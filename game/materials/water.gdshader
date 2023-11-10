@@ -3,6 +3,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 
 instance uniform float tiling : hint_range(0.1, 100) = 5.0;
 instance uniform vec4 water_color : source_color = vec4(0.200, 0.486, 1.000, 0.800000);
+instance uniform vec4 foam_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 
 uniform sampler2D noise;
 uniform sampler2D depth : hint_depth_texture;
@@ -34,7 +35,8 @@ void fragment() {
 	vec4 first_sample = texture(noise, first_uv);
 	vec4 second_sample = texture(noise, second_uv);
 	vec4 combined_noise = pow(first_sample * second_sample, vec4(1.25));
-	vec4 water_with_noise = water_color + combined_noise;
+	vec4 foam = combined_noise * foam_color;
+	vec4 water_with_foam = water_color + foam;
 	
 	float proximity_fade = 1.0 - get_proximity_fade(
 		SCREEN_UV,
@@ -45,8 +47,8 @@ void fragment() {
 	float rim_mask = pow(proximity_fade, 16);
 	float mask = ripple_mask + rim_mask;
 
-	ALBEDO = mix(water_with_noise, vec4(1.0, 1.0, 1.0, 1.0), mask).rgb;
+	ALBEDO = mix(water_with_foam, foam_color, mask).rgb;
 	ALPHA = water_color.a;
-	EMISSION = combined_noise.rgb;
+	EMISSION = foam.rgb;
 	ROUGHNESS = 0.0;
 }

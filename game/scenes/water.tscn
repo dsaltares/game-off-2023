@@ -3,13 +3,13 @@
 [ext_resource type="Material" uid="uid://r5k7il4ukh7e" path="res://materials/water.tres" id="1_k8vur"]
 [ext_resource type="Script" path="res://scripts/water.gd" id="2_33v6h"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_uol26"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_hdds6"]
 material = ExtResource("1_k8vur")
 size = Vector2(20, 20)
 subdivide_width = 20
 subdivide_depth = 20
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_mvsuj"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_2knge"]
 size = Vector3(20, 1, 20)
 
 [node name="Water" type="Node3D"]
@@ -18,9 +18,10 @@ water_size = Vector2(20, 20)
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-instance_shader_parameters/tiling = 2.0
+instance_shader_parameters/foam_color = Color(1, 1, 1, 1)
+instance_shader_parameters/tiling = 5.0
 instance_shader_parameters/water_color = Color(0.2, 0.486, 1, 0.8)
-mesh = SubResource("PlaneMesh_uol26")
+mesh = SubResource("PlaneMesh_hdds6")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_mask = 6
@@ -29,6 +30,6 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
-shape = SubResource("BoxShape3D_mvsuj")
+shape = SubResource("BoxShape3D_2knge")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

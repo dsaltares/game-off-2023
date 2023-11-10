@@ -21,7 +21,7 @@ func tick(actor: Node, _blackboard: Blackboard) -> int:
 	actor.target_position = get_patrol_point_at_idx(actor, path_idx)
 	actor.look_at_target = Vector3.ZERO
 
-	return RUNNING
+	return SUCCESS
 
 
 func get_patrol_point_at_idx(actor: Node, idx: int) -> Vector3:

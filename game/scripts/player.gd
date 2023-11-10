@@ -47,7 +47,7 @@ var max_jump_height := 0.0
 var jump_mode := JumpMode.NO_JUMP
 var target_angle := 0.0
 var health: int = 3
-
+var coins: int = 0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -184,6 +184,7 @@ func damage() -> void:
 		return
 
 	health -= 1
+	EventBus.emit_signal("player_health_updated", health)
 
 	if health == 0:
 		die()
@@ -194,7 +195,12 @@ func damage() -> void:
 
 func die() -> void:
 	is_dead = true
+	EventBus.emit_signal("player_died")
 
 
 func high_jump() -> void:
 	_start_jump(JumpMode.HIGH_JUMP)
+
+func pick_up_coin() -> void:
+	coins += 1
+	EventBus.emit_signal("player_coins_updated", coins)

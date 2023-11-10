@@ -13,7 +13,7 @@ func _physics_process(delta):
 	global_position = global_position.lerp(target.global_position, delta / follow_time)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotation.y -= event.relative.x * mouse_sensitivity
 		rotation.x -= event.relative.y * mouse_sensitivity

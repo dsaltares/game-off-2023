@@ -4,7 +4,7 @@ class_name CircularSaw
 
 @export var distance := 5.0
 @export var speed := 3.0
-@export var wait_time := 0.5
+@export var wait_time := 0.1
 
 @onready var animation_player := %AnimationPlayer
 @onready var model := %Model
@@ -24,7 +24,7 @@ func _ready() -> void:
 		. as_relative()
 		. set_delay(wait_time)
 		. set_ease(Tween.EASE_IN_OUT)
-		. set_trans(Tween.TRANS_QUAD)
+		. set_trans(Tween.TRANS_LINEAR)
 	)
 	tween.tween_property(model, "rotation_degrees", Vector3(0.0, 270.0, 0.0), 0.0)
 	(
@@ -33,7 +33,7 @@ func _ready() -> void:
 		. as_relative()
 		. set_delay(wait_time)
 		. set_ease(Tween.EASE_IN_OUT)
-		. set_trans(Tween.TRANS_QUAD)
+		. set_trans(Tween.TRANS_LINEAR)
 	)
 	tween.set_loops()
 	tween.play()

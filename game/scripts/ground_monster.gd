@@ -16,6 +16,7 @@ const ARRIVE_DISTANCE = 0.05
 	"parameters/playback"
 )
 @onready var damage_area := %DamageArea
+@onready var ai: BeehaveTree = %AI
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var target_angle := 0.0
@@ -98,6 +99,7 @@ func attack() -> void:
 
 func die() -> void:
 	is_dead = true
+	ai.enabled = false
 	await get_tree().create_timer(4.0).timeout
 	queue_free()
 

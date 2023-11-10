@@ -86,8 +86,8 @@ func _update_damage_area() -> void:
 		return
 
 	for body in damage_area.get_overlapping_bodies():
-		if body.has_method("kill"):
-			body.kill()
+		if body.has_method("die"):
+			body.die()
 
 func _update_vertical_movement(delta: float) -> void:
 	if is_on_floor() and not was_on_floor:

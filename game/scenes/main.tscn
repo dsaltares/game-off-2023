@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://cj0pyh2lb4mc" path="res://scenes/bouncer.tscn" id="8_y8ruo"]
 [ext_resource type="PackedScene" uid="uid://dq0ryhwf36fdr" path="res://scenes/spikes.tscn" id="9_o7i4k"]
 [ext_resource type="PackedScene" uid="uid://43c1bwejp7" path="res://scenes/circular_saw.tscn" id="10_6fopu"]
-[ext_resource type="PackedScene" uid="uid://bh02vft03kcqe" path="res://scenes/tower.tscn" id="11_y3a2b"]
 [ext_resource type="PackedScene" uid="uid://ober1e52kql7" path="res://scenes/bridge/bridge.tscn" id="12_eahgv"]
 [ext_resource type="PackedScene" uid="uid://buogm8a7b21w4" path="res://models/Tree_Fruit.gltf" id="13_3wj5p"]
 [ext_resource type="PackedScene" uid="uid://q71rx7drm0h5" path="res://scenes/falling_platform.tscn" id="13_ewxif"]
@@ -30,6 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://dnrpnm0mjmiqw" path="res://models/Plant_Large.gltf" id="24_gpmfc"]
 [ext_resource type="PackedScene" uid="uid://bjtn0enlhvr0q" path="res://scenes/clouds.tscn" id="25_g23xu"]
 [ext_resource type="PackedScene" uid="uid://bvd02qinoye4j" path="res://scenes/hud.tscn" id="29_ya4yn"]
+[ext_resource type="PackedScene" uid="uid://bbrbo3o8nv36w" path="res://scenes/level_end.tscn" id="30_nffj6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h03tq"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -171,9 +171,6 @@ transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e
 distance = 8.0
 speed = 6.0
 wait_time = 0.2
-
-[node name="Tower" parent="LevelElements" instance=ExtResource("11_y3a2b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -21)
 
 [node name="Bridge" parent="LevelElements" instance=ExtResource("12_eahgv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 6.2, 11.1)
@@ -350,3 +347,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 16, 7)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 16, -16)
 
 [node name="HUD" parent="." instance=ExtResource("29_ya4yn")]
+
+[node name="LevelEnd" parent="." instance=ExtResource("30_nffj6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -22)

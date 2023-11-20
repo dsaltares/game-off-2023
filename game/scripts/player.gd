@@ -19,6 +19,7 @@ const LAND_EFFECT_HEIGHT_THRESHOLD := 4.0
 
 @onready var coyote_timer := %CoyoteTimer
 @onready var anim_tree := %AnimationTree
+@onready var anim_player: AnimationPlayer = %AnimationPlayer
 @onready var model := %Rig
 @onready var running_trail := %RunningTrail
 @onready var landing_effect := %LandingEffect
@@ -204,3 +205,8 @@ func high_jump() -> void:
 func pick_up_coin() -> void:
 	coins += 1
 	EventBus.emit_signal("player_coins_updated", coins)
+
+func pick_up_gem() -> void:
+	anim_tree.set("parameters/win/request", true)
+	await get_tree().create_timer(anim_player.get_animation('Cheer').length).timeout
+	EventBus.emit_signal("level_completed")

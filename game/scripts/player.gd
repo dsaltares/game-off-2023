@@ -44,6 +44,7 @@ var can_jump := false
 var attacking := false
 var was_on_floor := false
 var is_dead := false
+var has_completed_level := false
 var max_jump_height := 0.0
 var jump_mode := JumpMode.NO_JUMP
 var target_angle := 0.0
@@ -122,7 +123,7 @@ func _update_vertical_movement(delta: float) -> void:
 
 func _update_horizontal_movement(delta: float) -> void:
 	var input_dir := (
-		Input.get_vector("left", "right", "forward", "backward") if !is_dead else Vector2.ZERO
+		Input.get_vector("left", "right", "forward", "backward") if can_control() else Vector2.ZERO
 	)
 	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_rig.rotation.y)
 	var time_to_halt := TIME_TO_HALT if is_on_floor() else TIME_TO_HALT_AIR
@@ -143,7 +144,7 @@ func _update_horizontal_movement(delta: float) -> void:
 
 
 func _handle_actions() -> void:
-	if is_dead:
+	if !can_control():
 		return
 
 	if Input.is_action_just_pressed("attack") and not attacking:
@@ -164,9 +165,10 @@ func _update_animations() -> void:
 	anim_tree.set("parameters/locomotion/conditions/is_on_floor", is_on_floor())
 	anim_tree.set("parameters/locomotion/conditions/is_in_air", !is_on_floor())
 	anim_tree.set("parameters/locomotion/conditions/is_dead", is_dead)
+	anim_tree.set("parameters/locomotion/conditions/has_completed_level", has_completed_level)
 
 	var horizontal_velocity := Vector2(velocity.x, velocity.z)
-	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor() and !is_dead
+	running_trail.emitting = horizontal_velocity.length() > 1.0 and is_on_floor() and can_control()
 
 
 func _start_jump(mode: JumpMode) -> void:
@@ -181,7 +183,7 @@ func _start_jump(mode: JumpMode) -> void:
 
 
 func damage() -> void:
-	if !immunity_timer.is_stopped() or is_dead:
+	if !immunity_timer.is_stopped() or !can_control():
 		return
 
 	health -= 1
@@ -207,6 +209,9 @@ func pick_up_coin() -> void:
 	EventBus.emit_signal("player_coins_updated", coins)
 
 func pick_up_gem() -> void:
-	anim_tree.set("parameters/win/request", true)
+	has_completed_level = true
 	await get_tree().create_timer(anim_player.get_animation('Cheer').length).timeout
 	EventBus.emit_signal("level_completed")
+
+func can_control() -> bool:
+	return !is_dead and !has_completed_level

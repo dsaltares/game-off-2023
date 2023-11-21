@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d32hpj2ql27eo"]
+
+[ext_resource type="Script" path="res://scripts/level_manager.gd" id="1_grisf"]
+[ext_resource type="PackedScene" uid="uid://did0qv5yf3bto" path="res://scenes/transitions.tscn" id="2_f8df1"]
+
+[node name="LevelManager" type="Node3D"]
+script = ExtResource("1_grisf")
+
+[node name="LevelSlot" type="Node3D" parent="."]
+
+[node name="Transitions" parent="." instance=ExtResource("2_f8df1")]
+unique_name_in_owner = true

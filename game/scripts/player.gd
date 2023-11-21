@@ -197,6 +197,9 @@ func damage() -> void:
 
 
 func die() -> void:
+	if is_dead:
+		return
+		
 	is_dead = true
 	EventBus.emit_signal("player_died")
 

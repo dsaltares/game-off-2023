@@ -214,7 +214,7 @@ func pick_up_coin() -> void:
 func pick_up_gem() -> void:
 	has_completed_level = true
 	await get_tree().create_timer(anim_player.get_animation('Cheer').length).timeout
-	EventBus.emit_signal("level_completed")
+	EventBus.emit_signal("level_completed", coins)
 
 func can_control() -> bool:
 	return !is_dead and !has_completed_level

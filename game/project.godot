@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 EventBus="*res://scripts/event_bus.gd"
+GameProgress="*res://scripts/game_progress.gd"
 
 [display]
 

@@ -5,9 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://ww66jvxxkah1" path="res://textures/hudCoin.png" id="4_bni3m"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bni4q"]
+line_spacing = 2.08165e-12
 font = ExtResource("3_sxw83")
-font_size = 72
-outline_size = 24
+font_size = 48
+outline_size = 12
 outline_color = Color(0.176471, 0.176471, 0.176471, 1)
 shadow_size = 0
 
@@ -20,42 +21,60 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hek53")
 
-[node name="FPSLabel" type="Label" parent="."]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 60.0
-offset_bottom = 43.0
-text = "145"
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="HeartsContainer" type="HBoxContainer" parent="."]
+[node name="Control" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="FPSLabel" type="Label" parent="MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 28.0
+offset_bottom = 26.0
+text = "117"
+
+[node name="HeartsContainer" type="HBoxContainer" parent="MarginContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
+offset_top = -64.0
+offset_right = 200.0
 grow_vertical = 0
 
-[node name="CoinsContainer" type="HBoxContainer" parent="."]
+[node name="CoinsContainer" type="HBoxContainer" parent="MarginContainer/Control"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
+offset_left = -100.0
+offset_bottom = 64.0
 grow_horizontal = 0
 
-[node name="CoinLabel" type="Label" parent="CoinsContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/CoinsContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="CoinLabel" type="Label" parent="MarginContainer/Control/CoinsContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 label_settings = SubResource("LabelSettings_bni4q")
-horizontal_alignment = 2
-vertical_alignment = 1
+horizontal_alignment = 1
+vertical_alignment = 3
 
-[node name="Coin" type="TextureRect" parent="CoinsContainer"]
+[node name="Coin" type="TextureRect" parent="MarginContainer/Control/CoinsContainer"]
 layout_mode = 2
 texture = ExtResource("4_bni3m")
+stretch_mode = 3

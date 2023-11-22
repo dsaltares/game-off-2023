@@ -22,10 +22,18 @@ BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 EventBus="*res://scripts/event_bus.gd"
 GameProgress="*res://scripts/game_progress.gd"
 
+[debug]
+
+file_logging/enable_file_logging=true
+
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/window_width_override=1920
+window/size/window_height_override=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 

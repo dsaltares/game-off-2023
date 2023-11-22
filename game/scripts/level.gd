@@ -1,3 +1,3 @@
 extends Node3D
-class_name Main
+class_name Level
 

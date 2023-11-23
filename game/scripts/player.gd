@@ -54,6 +54,7 @@ var coins: int = 0
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	EventBus.emit_signal("player_loaded", coins, health)
+	target_angle = rotation.y
 
 
 func _physics_process(delta: float) -> void:

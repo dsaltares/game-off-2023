@@ -31,7 +31,6 @@ import_script/path=""
 _subresources={
 "nodes": {
 "PATH:RockPlatforms_32": {
-"generate/physics": true,
 "physics/shape_type": 2
 }
 }

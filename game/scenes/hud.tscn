@@ -41,7 +41,7 @@ unique_name_in_owner = true
 layout_mode = 1
 offset_right = 28.0
 offset_bottom = 26.0
-text = "117"
+text = "136"
 
 [node name="HeartsContainer" type="HBoxContainer" parent="MarginContainer/Control"]
 unique_name_in_owner = true

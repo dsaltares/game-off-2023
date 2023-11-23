@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+render_mode depth_draw_always, diffuse_lambert, specular_schlick_ggx;
 
 instance uniform float tiling : hint_range(0.1, 100) = 5.0;
 instance uniform vec4 water_color : source_color = vec4(0.200, 0.486, 1.000, 0.800000);

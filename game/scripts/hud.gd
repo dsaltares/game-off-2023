@@ -22,6 +22,9 @@ func _ready() -> void:
 	_update_hud()
 
 func _process(_delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+		
 	fps_label.text = str(Engine.get_frames_per_second())
 
 func _on_player_loaded(new_coins: int, new_health: int) -> void:

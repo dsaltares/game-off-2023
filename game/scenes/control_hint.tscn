@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt21b0dcfr8cu"]
+
+[ext_resource type="Script" path="res://scripts/control_hint.gd" id="1_84bqw"]
+[ext_resource type="Texture2D" uid="uid://dx5ssbxnfr6pl" path="res://textures/controls/Keyboard/Dark/wasd.png" id="2_dhfwv"]
+
+[node name="ControlHint" type="Node3D"]
+script = ExtResource("1_84bqw")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="Pivot"]
+unique_name_in_owner = true
+billboard = 2
+render_priority = 127
+outline_render_priority = 100
+text = "Move"
+font_size = 128
+outline_size = 48
+
+[node name="Sprite3D" type="Sprite3D" parent="Pivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
+pixel_size = 0.03
+billboard = 2
+render_priority = 127
+texture = ExtResource("2_dhfwv")

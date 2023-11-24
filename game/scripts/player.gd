@@ -124,11 +124,11 @@ func _update_vertical_movement(delta: float) -> void:
 
 
 func _update_horizontal_movement(delta: float) -> void:
-	var input_dir := (
-		Input.get_vector("left", "right", "forward", "backward") if can_control() else Vector2.ZERO
-	)
-	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_rig.rotation.y)
+	var input_vector := Input.get_vector("left", "right", "forward", "backward")
+	var input_dir := input_vector if can_control() else Vector2.ZERO
+	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera_rig.rotation.y).normalized()
 	var time_to_halt := TIME_TO_HALT if is_on_floor() else TIME_TO_HALT_AIR
+	var max_speed := input_vector.length() * MAX_SPEED if input_vector.length() > 0 else MAX_SPEED
 	var acceleration := MAX_SPEED / TIME_TO_MAX_SPEED if direction else MAX_SPEED / time_to_halt
 	var horizontal_speed := clampf(
 		Vector2(velocity.x, velocity.z).length() + acceleration * delta, 0, MAX_SPEED
@@ -140,6 +140,7 @@ func _update_horizontal_movement(delta: float) -> void:
 
 	if horizontal_velocity.length_squared() > 0:
 		target_angle = Vector2(-velocity.z, -velocity.x).angle()
+
 
 	rotation.y = lerp_angle(rotation.y, target_angle, delta / TIME_TO_FACE)
 	model.scale = lerp(model.scale, Vector3(1, 1, 1), delta / 0.2)

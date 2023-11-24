@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cgjfipmswmdm8"]
+[gd_scene load_steps=21 format=3 uid="uid://cgjfipmswmdm8"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_8geo8"]
 [ext_resource type="Script" path="res://scripts/world_environment.gd" id="2_hi2eb"]
@@ -7,6 +7,10 @@
 [ext_resource type="MeshLibrary" uid="uid://h6vx5pq7jaji" path="res://resources/tiles.tres" id="6_wvmjh"]
 [ext_resource type="PackedScene" uid="uid://bt21b0dcfr8cu" path="res://scenes/control_hint.tscn" id="8_o75vu"]
 [ext_resource type="PackedScene" uid="uid://ober1e52kql7" path="res://scenes/bridge/bridge.tscn" id="12_gpy2w"]
+[ext_resource type="PackedScene" uid="uid://c4dqgxa4rk76" path="res://models/RockPlatform_Tall.gltf" id="18_kayme"]
+[ext_resource type="PackedScene" uid="uid://c0lkydje3ilmm" path="res://models/RockPlatforms_Medium.gltf" id="19_8qul5"]
+[ext_resource type="PackedScene" uid="uid://dnayf6pi6sp1p" path="res://models/RockPlatforms_Large.gltf" id="20_bjhxj"]
+[ext_resource type="PackedScene" uid="uid://byd3jidppcxef" path="res://models/RockPlatforms_1.gltf" id="22_xhgii"]
 [ext_resource type="PackedScene" uid="uid://dn31onovdjhxd" path="res://scenes/water.tscn" id="25_6kugr"]
 [ext_resource type="PackedScene" uid="uid://bbrbo3o8nv36w" path="res://scenes/level_end.tscn" id="30_66rbi"]
 
@@ -42,10 +46,10 @@ albedo_color = Color(0.65098, 0.537255, 0.423529, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_idhmq"]
 material = SubResource("StandardMaterial3D_so103")
-size = Vector2(200, 200)
+size = Vector2(500, 500)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_acc62"]
-size = Vector3(200, 0.2, 200)
+size = Vector3(500, 0.2, 500)
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_8geo8")
@@ -90,13 +94,33 @@ length = 10.0
 
 [node name="Nature" type="Node3D" parent="."]
 
+[node name="RockPlatforms_Large" parent="Nature" instance=ExtResource("20_bjhxj")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -17, -3, 51)
+
+[node name="RockPlatforms_Medium" parent="Nature" instance=ExtResource("19_8qul5")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 15, -3, 23)
+
+[node name="RockPlatforms_Medium2" parent="Nature" instance=ExtResource("19_8qul5")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, -3, -32)
+
+[node name="RockPlatform_Tall" parent="Nature" instance=ExtResource("18_kayme")]
+transform = Transform3D(2.75, 0, 0, 0, 2.75, 0, 0, 0, 2.75, 9, -3, 47)
+
+[node name="RockPlatform_Tall2" parent="Nature" instance=ExtResource("18_kayme")]
+transform = Transform3D(2.75, 0, 0, 0, 2.75, 0, 0, 0, 2.75, 24, -3, 2)
+
+[node name="RockPlatform_Tall3" parent="Nature" instance=ExtResource("18_kayme")]
+transform = Transform3D(2.75, 0, 0, 0, 2.75, 0, 0, 0, 2.75, -30, -3, 39)
+
+[node name="RockPlatforms_1" parent="Nature" instance=ExtResource("22_xhgii")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 10, 0, -27)
+
 [node name="Water" parent="Nature" instance=ExtResource("25_6kugr")]
 water_size = Vector2(500, 500)
 
 [node name="Pickups" type="Node3D" parent="."]
 
 [node name="Edges" type="Node3D" parent="."]
-transform = Transform3D(7.56, 0, 0, 0, 6.82, 0, 0, 0, 6.88, 0, 0, 0)
 
 [node name="Floor" type="StaticBody3D" parent="Edges"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -3, 2.08165e-12)
